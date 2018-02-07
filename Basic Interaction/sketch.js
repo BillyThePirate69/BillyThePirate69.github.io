@@ -47,5 +47,5 @@ function mouseClicked(){
 function deviceShaken(){
   var s = 'AAAAAAAAAAAAAAAAAAAAAAAAAAA'
   fill(50);
-  text(s, random(50), random(50), random(70), random(80));
+  text(s, random(200), random(200), random(200), random(200));
 }
