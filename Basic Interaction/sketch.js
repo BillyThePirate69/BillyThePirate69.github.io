@@ -1,6 +1,6 @@
-// p5js template project - replace with project title
-// Dan Schellenberg - replace with your name
-// Feb 2, 2018 - replace with the date
+// P5JS tempate - Bill Tran
+// Dan Schellenberg - modified by Bill Tran
+// Feb 2, 2018 - modified on Feb 7th, 2018
 
 // global variables
 let gear;
