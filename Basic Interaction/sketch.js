@@ -45,7 +45,7 @@ function mouseClicked(){
 }
 
 function deviceShaken(){
-  var s = 'AAAAAAAAAAAAAAAAAAAAAAAAAAA'
+  var s = 'NUT'
   fill(50);
   text(s, random(2000), random(2000), random(2000), random(2000));
 }
