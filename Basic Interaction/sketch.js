@@ -46,7 +46,6 @@ function mouseClicked(){
 
 function deviceShaken(){
   var s = 'NUUUUUUUT'
-  textFront("Comic Sans MS");
   fill(random(255), random(255), random(255));
   textSize(50);
   text(s, random(2000), random(2000));
