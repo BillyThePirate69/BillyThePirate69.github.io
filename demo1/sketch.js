@@ -15,3 +15,12 @@ function draw(){
     ellipse (random(0, width), random(0, height), random(50,200));
   }
 }
+
+function keyPressed(){
+  if (key == 'c' || key == 'C'){
+    background(255);
+  }
+}
+
+
+
