@@ -10,10 +10,10 @@ function setup(){
 function draw(){
   fill(random(255), random(255), random(255));
   if (mouseX < windowWidth/2){
-    text('IM IN PAIN', random(0, width), random(0, height), random(50, 200));
+    text('xd', random(0, width), random(0, height), random(50, 200));
   }
   if (mouseX > windowWidth/2){
-    text('EXISTENCE IS TORMENT', random(0, width), random(0, height), random(50, 200));
+    text('XD', random(0, width), random(0, height), random(50, 200));
   }
 }
 
