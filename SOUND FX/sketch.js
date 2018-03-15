@@ -15,7 +15,7 @@ function setup(){
 
 }
 
-function mouseClicked(){
+function deviceShaken(){
   xd.play();
   image(ree,0,0,windowWidth,windowHeight);
 }
