@@ -7,7 +7,7 @@ let state;
 
 function preload(){
    xd = loadImage('images/alpha.jpg');
-   playbutton = loadImage('images/yikers.jpg');
+   playbutton = loadImage('images/sixfive.jpg');
 }
 
 function setup() {
@@ -28,6 +28,7 @@ function draw(){
 }
 
 function menu(){
+  // button
   let buttonWidth = 400;
   let buttonHeight = 200;
   let leftSide = width / 2 - buttonWidth / 2;
@@ -35,9 +36,16 @@ function menu(){
   let rightSide = leftSide + buttonWidth;
   let bottomSide = topSide + buttonHeight;
 
+  // text
+  textSize(60);
+  text("Tyler1 xD", width/2 - 100, height/2 - 200);
+
+
+
   if (mouseX >= leftSide && mouseX <= rightSide && mouseY >= topSide && mouseY <= bottomSide) {
     if (mouseIsPressed) {
       state = 1;
+      background(255);
     }
   }
   image(playbutton, leftSide, topSide, buttonWidth, buttonHeight);
@@ -45,5 +53,5 @@ function menu(){
 }
 
 function tyler(){
-  rect(5, 5, 5, 5);
+  image(xd, 5, 5, 60, 60)
 }
