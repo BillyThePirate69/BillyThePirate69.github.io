@@ -1,11 +1,13 @@
-let timer;
-let starto, stop;
-let xd;
-let x;
-let y;
 let state;
 let menuButton;
-
+let playerChoice;
+let compChoice;
+let playerChoice1;
+let playerChoice2;
+let playerChoice3;
+let compChoice1;
+let compChoice2;
+let compChoice3;
 
 
 function preload(){
@@ -30,7 +32,10 @@ function draw(){
   }
   if(state === 1){
     let menuButton = 0;
-    tyler()
+    choice();
+    computerChoice();
+    mainGame()
+
   }
 }
 
@@ -61,6 +66,42 @@ function menu(){
   image(xd, windowWidth, windowHeight);
 }
 
-function tyler(){
-  image(xd, random(995), random(995), 60, 60);
+// Player's choice via input
+function choice(){
+      playerChoice = prompt("Choose Rock/Paper/Scissors");
+      if (playerChoice === "rock" || "Rock"){
+        playerChoice1 = "rock";
+      }
+      if (playerChoice === "scissors" || "Scissors"){
+        playerChoice2 = "paper";
+      }
+      if (playerChoice === "paper" || "Paper"){
+        playerChoice3 = "scissors";
+      }
+}
+
+// Randomizes computer chances of picking rock/paper/scissors
+function computerChoice(){
+  compChance = random(9);
+  if (compChance <= 3){
+    compChoice1 = "rock"
+  }
+  if (compChance <= 6){
+    compChoice2 = "paper"
+  }
+  if (compChance <= 9){
+    compChoice3 = "scissors"
+  }
+}
+
+function mainGame(){
+  if (playerChoice1 === compChoice1){
+    text("Issa tie", width/2, height/2, 60, 60);
+  }
+  if (playerChoice1 === compChoice2){
+    text("Issa lose", width/2, height/2, 60, 60);
+  }
+  if (playerChoice1 === compChoice3){
+    text("Issa win", width/2, height/2, 60, 60);
+  }
 }
