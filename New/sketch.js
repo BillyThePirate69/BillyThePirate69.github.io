@@ -1,14 +1,9 @@
 let state;
 let menuButton;
+let computerChoice = Math.random(9);
 let playerChoice;
-let compChoice;
-let playerChoice1;
-let playerChoice2;
-let playerChoice3;
-let compChoice1;
-let compChoice2;
-let compChoice3;
-
+let xd;
+let playButton;
 
 function preload(){
    xd = loadImage('images/alpha.jpg');
@@ -27,14 +22,11 @@ function draw(){
   background(255);
 
   if(state === 0){
-    let menuButton = 1;
     menu();
   }
   if(state === 1){
-    let menuButton = 0;
-    choice();
-    computerChoice();
-    mainGame()
+    choices();
+    decision(playerChoice, computerChoice);
 
   }
 }
@@ -66,42 +58,50 @@ function menu(){
   image(xd, windowWidth, windowHeight);
 }
 
-// Player's choice via input
-function choice(){
-      playerChoice = prompt("Choose Rock/Paper/Scissors");
-      if (playerChoice === "rock" || "Rock"){
-        playerChoice1 = "rock";
-      }
-      if (playerChoice === "scissors" || "Scissors"){
-        playerChoice2 = "paper";
-      }
-      if (playerChoice === "paper" || "Paper"){
-        playerChoice3 = "scissors";
-      }
-}
-
-// Randomizes computer chances of picking rock/paper/scissors
-function computerChoice(){
-  compChance = random(9);
-  if (compChance <= 3){
-    compChoice1 = "rock"
+function choices(){
+  let playerChoice = prompt("Choose Rock, Paper or Scissors");
+  if (computerChoice <= 3){
+    computerChoice = "rock";
   }
-  if (compChance <= 6){
-    compChoice2 = "paper"
+  else if (computerChoice <= 6){
+    computerChoice - "paper"
   }
-  if (compChance <= 9){
-    compChoice3 = "scissors"
+  else{
+    computerChoice = "scissors";
   }
 }
 
-function mainGame(){
-  if (playerChoice1 === compChoice1){
-    text("Issa tie", width/2, height/2, 60, 60);
-  }
-  if (playerChoice1 === compChoice2){
-    text("Issa lose", width/2, height/2, 60, 60);
-  }
-  if (playerChoice1 === compChoice3){
-    text("Issa win", width/2, height/2, 60, 60);
+function decision(playerChoice, computerChoice){
+if(playerChoice === computerChoice){
+  text("Issa tie", width/2, height/2, 100, 100);
+}
+if(playerChoice === "rock"){
+    if(computerChoice === "scissors"){
+        text("Issa win for the player", width/2, height/2, 100, 100);
+        computerChoice = random(9);
+    }
+    else{
+        return "paper wins";
+    }
+}
+if(playerChoice === "paper"){
+    if(computerChoice === "rock"){
+        text("Issa win for the player", width/2, height/2, 100, 100);
+        computerChoice = random(9);
+    }
+    else{
+        text("Issa win for the player", width/2, height/2, 100, 100);
+        computerChoice = random(9);
+    }
+}
+if(playerChoice === "scissors"){
+    if(playerChoice === "rock"){
+        text("Issa win for the AI", width/2, height/2, 100, 100);
+        computerChoice = random(9);
+    }
+    else{
+        text("Issa win for the AI", width/2, height/2, 100, 100);
+        computerChoice = random(9);
+    }
   }
 }
