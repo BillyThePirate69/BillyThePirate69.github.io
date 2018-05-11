@@ -1,32 +1,24 @@
-// Bill Tran
-// Major Game Project
-var game = new Phaser.Game(config);
+let sprites;
+let game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
-function preload ()
-{
-    this.load.setBaseURL('http://labs.phaser.io');
-
-    this.load.image('sky', 'assets/skies/space3.png');
-    this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-    this.load.image('red', 'assets/particles/red.png');
+function preload(){
+  game.load.spriteSheet('test', 'Test/xd.png', 100, 100);
 }
-
-function create ()
-{
-    this.add.image(400, 300, 'sky');
-
-    var particles = this.add.particles('red');
-
-    var emitter = particles.createEmitter({
-        speed: 100,
-        scale: { start: 1, end: 0 },
-        blendMode: 'ADD'
-    });
-
-    var logo = this.physics.add.image(400, 100, 'logo');
-
-    logo.setVelocity(100, 200);
-    logo.setBounce(1, 1);
-    logo.setCollideWorldBounds(true);
-
-    emitter.startFollow(logo);
+function create(){
+  sprites = this.game.add.sprite(10, 30, 'test');
+  sprites.frame = 3;
+}
+function update(){
+  if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+    sprite.x -=4;
+  }
+  if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+    sprite.x +=4;
+  }
+  if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+    sprite.y -=4;
+  }
+  if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+    sprite.y +=4;
+  }
+}
