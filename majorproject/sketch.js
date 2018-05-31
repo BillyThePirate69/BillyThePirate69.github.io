@@ -2,6 +2,12 @@ let game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create
 let player;
 let map;
 let layer;
+let controls = {};
+let x;
+let y;
+
+
+
 
 
 function preload() {
@@ -17,10 +23,28 @@ function create() {
   map.createLayer('house')
   map.addTilesetImage('maptile', 'tileset');
   // sprite
-  player = this.game.add.sprite(300, 400, 'sprite');
+  player = this.game.add.sprite(486, 384, 'sprite');
   player.scale.setTo(2, 2);
+  player.frame = 0;
+  player.animations.add('left', [0], 2, true);
+  player.animations.add('left', [1, 2, 3], 2, false);
+
 
 }
 
 function update() {
+  let k = this.input.keyboard;
+  if(k.isDown(37)){
+    player.x -= 2;
+    player.animations.play('left');
+  }
+  else if(k.isDown(39)){
+    player.x += 2;
+  }
+  else if(k.isDown(38)){
+    player.y -= 2;
+  }
+  else if(k.isDown(40)){
+    player.y += 2;
+  }
 }
