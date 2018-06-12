@@ -1,14 +1,10 @@
-let game = new Phaser.Game(480, 360, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+let game = new Phaser.Game(480, 360, Phaser.AUTO, '', { preload: preload, create: create, update: update  });
 let map;
 let layer;
 let self = this;
-let x;
-let y;
 let player = {
   xDest: null,
   yDest: null
-}
-let enemy = {
 }
 
 
@@ -36,7 +32,7 @@ function create() {
   this.enemy.scale.setTo(0.8, 0.8);
 
   //player class
-  self.player = new Player(150, 100);
+  // self.player = new Player(150, 100);
   game.camera.x = 300;
   game.camera.y = 200;
   game.add.existing(self.player);
@@ -47,7 +43,7 @@ function create() {
   game.input.activePointer.capture = true;
 }
 
-function update() {
+function update(){
   if(game.input.activePointer.isDown){
     player.setDest(game.input.x - game.world.worldPosition.x, game.input.y - game.world.worldPosition.y);
   }
@@ -80,24 +76,27 @@ function stopPlayer(){
   self.player.body.velocity.x = self.player.body.velocity.y = 0;
 }
 
-function Player(x, y){
-  let player = game.add.sprite(x, y, 'sprite');
-  player.speed = 80;
-  player.xDest = x;
-  player.yDest = y;
-  player.scale.setTo(2, 2);
-  player.anchor.set(0.5, 0.5);
-  player.animations.add('idle', [0], 2, true);
-  player.animations.add('left', [1, 2, 3], 2, false);
-}
+class Player{
+  constructor(x, y){
+    let player = game.add.sprite(x, y, 'sprite');
+    player.speed = 80;
+    player.xDest = x;
+    player.yDest = y;
+    player.scale.setTo(2, 2);
+    player.anchor.set(0.5, 0.5);
+    player.animations.add('idle', [0], 2, true);
+    player.animations.add('left', [1, 2, 3], 2, false);
+  }
+  setDest(x, y){
+    player.xDest = x;
+    player.yDest = y;
+  }
+  update(){
+    movePlayer(self);
+    game.camera.x = self.player.x - 150;
+    game.camera.y = self.player.y - 100;
+  }
+  stop(){
 
-player.setDest = function(x, y){
-  player.xDest = x;
-  player.yDest = y;
-}
-
-player.update = function(){
-  movePlayer(self);
-  game.camera.x = self.player.x - 150;
-  game.camera.y = self.player.y - 100;
-}
+  }
+};
