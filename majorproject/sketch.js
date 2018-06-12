@@ -2,10 +2,8 @@ let game = new Phaser.Game(480, 360, Phaser.AUTO, '', { preload: preload, create
 let map;
 let layer;
 let self = this;
-let player = {
-  xDest: null,
-  yDest: null
-}
+let playerSprite;
+
 
 
 function preload() {
@@ -32,7 +30,7 @@ function create() {
   this.enemy.scale.setTo(0.8, 0.8);
 
   //player class
-  // self.player = new Player(150, 100);
+  playerSprite = new Player(150, 100);
   game.camera.x = 300;
   game.camera.y = 200;
   game.add.existing(self.player);
@@ -45,7 +43,7 @@ function create() {
 
 function update(){
   if(game.input.activePointer.isDown){
-    player.setDest(game.input.x - game.world.worldPosition.x, game.input.y - game.world.worldPosition.y);
+    playerSprite.setDest(game.input.x - game.world.worldPosition.x, game.input.y - game.world.worldPosition.y);
   }
 }
 
@@ -70,33 +68,29 @@ function movePlayer(self){
   }
 }
 
-function stopPlayer(){
-  self.player.xDest = self.player.x;
-  self.player.yDest = self.player.y;
-  self.player.body.velocity.x = self.player.body.velocity.y = 0;
-}
-
 class Player{
   constructor(x, y){
-    let player = game.add.sprite(x, y, 'sprite');
-    player.speed = 80;
-    player.xDest = x;
-    player.yDest = y;
-    player.scale.setTo(2, 2);
-    player.anchor.set(0.5, 0.5);
-    player.animations.add('idle', [0], 2, true);
-    player.animations.add('left', [1, 2, 3], 2, false);
+    self.player = game.add.sprite(x, y, 'sprite');
+    self.player.speed = 80;
+    self.player.xDest = x;
+    self.player.yDest = y;
+    self.player.scale.setTo(2, 2);
+    self.player.anchor.set(0.5, 0.5);
+    self.player.animations.add('idle', [0], 2, true);
+    self.player.animations.add('left', [1, 2, 3], 2, false);
   }
   setDest(x, y){
-    player.xDest = x;
-    player.yDest = y;
+    self.player.xDest = x;
+    self.player.yDest = y;
   }
   update(){
     movePlayer(self);
     game.camera.x = self.player.x - 150;
     game.camera.y = self.player.y - 100;
   }
-  stop(){
-
+  stopPlayer(){
+    self.player.xDest = self.player.x;
+    self.player.yDest = self.player.y;
+    self.player.body.velocity.x = self.player.body.velocity.y = 0;
   }
-};
+}
