@@ -1,7 +1,6 @@
 let game = new Phaser.Game(480, 360, Phaser.AUTO, '', { preload: preload, create: create, update: update  });
 let map;
 let layer;
-let self = this;
 let playerSprite;
 
 
@@ -30,11 +29,10 @@ function create() {
   this.enemy.scale.setTo(0.8, 0.8);
 
   //player class
-  playerSprite = new Player(150, 100);
+  playerSprite = new Player(300, 200);
   game.camera.x = 300;
   game.camera.y = 200;
-  game.add.existing(self.player);
-  game.physics.enable(self.player, Phaser.Physics.ARCADE);
+
 
   //this.camera.follow(this.player, Phaser.Camera.FOLLOW_TOPDOWN, 1, 1);
 
@@ -47,50 +45,55 @@ function update(){
   }
 }
 
-function movePlayer(self){
-  if (Math.floor(self.player.x / 10) == Math.floor(self.player.xDest / 10)) {
-    self.player.body.velocity.x = 0;
-  } else if (Math.floor(self.player.x) < Math.floor(self.player.xDest)) {
-    self.player.body.velocity.x = 80;
-    self.player.animations.play('left');
-    self.player.scale.setTo(-2, 2);
-  } else if (Math.floor(self.player.x) > Math.floor(self.player.xDest)) {
-    self.player.body.velocity.x = -80;
-    self.player.animations.play('left');
-    self.player.scale.setTo(2, 2);
-  }
-  if (Math.floor(self.player.y / 10) === Math.floor(self.player.yDest / 10)) {
-    self.player.body.velocity.y = 0;
-  } else if (Math.floor(self.player.y) < Math.floor(self.player.yDest)) {
-    self.player.body.velocity.y = 80;
-  } else if (Math.floor(self.player.y) > Math.floor(self.player.yDest)) {
-    self.player.body.velocity.y = -80;
-  }
-}
-
 class Player{
   constructor(x, y){
-    self.player = game.add.sprite(x, y, 'sprite');
-    self.player.speed = 80;
-    self.player.xDest = x;
-    self.player.yDest = y;
-    self.player.scale.setTo(2, 2);
-    self.player.anchor.set(0.5, 0.5);
-    self.player.animations.add('idle', [0], 2, true);
-    self.player.animations.add('left', [1, 2, 3], 2, false);
-  }
+    this.player = game.add.sprite(x, y, 'sprite');
+    this.player.speed = 80;
+    this.player.xDest = x;
+    this.player.yDest = y;
+    this.player.scale.setTo(2, 2);
+    this.player.anchor.set(0.5, 0.5);
+    this.player.animations.add('idle', [0], 2, true);
+    this.player.animations.add('left', [1, 2, 3], 2, false);
+    game.physics.enable(this.player, Phaser.Physics.ARCADE);
+  };
   setDest(x, y){
-    self.player.xDest = x;
-    self.player.yDest = y;
+    this.movePlayer();
+    this.player.xDest = x;
+    this.player.yDest = y;
   }
   update(){
-    movePlayer(self);
-    game.camera.x = self.player.x - 150;
-    game.camera.y = self.player.y - 100;
+    game.camera.x = this.player.x - 150;
+    game.camera.y = this.player.y - 100;
   }
   stopPlayer(){
-    self.player.xDest = self.player.x;
-    self.player.yDest = self.player.y;
-    self.player.body.velocity.x = self.player.body.velocity.y = 0;
+    this.player.xDest = this.player.x;
+    this.player.yDest = this.player.y;
+    this.player.body.velocity.x = this.player.body.velocity.y = 0;
+  }
+
+  movePlayer(){
+    if (Math.floor(this.player.x / 10) == Math.floor(this.player.xDest / 10)) {
+      this.player.body.velocity.x = 0;
+    }
+    else if (Math.floor(this.player.x) < Math.floor(this.player.xDest)) {
+      this.player.body.velocity.x = 80;
+      this.player.animations.play('left');
+      this.player.scale.setTo(-2, 2);
+    }
+    else if (Math.floor(this.player.x) > Math.floor(this.player.xDest)) {
+      this.player.body.velocity.x = -80;
+      this.player.animations.play('left');
+      this.player.scale.setTo(2, 2);
+    }
+    if (Math.floor(this.player.y / 10) === Math.floor(this.player.yDest / 10)) {
+      this.player.body.velocity.y = 0;
+    }
+    else if (Math.floor(this.player.y) < Math.floor(this.player.yDest)) {
+      this.player.body.velocity.y = 80;
+    }
+    else if (Math.floor(this.player.y) > Math.floor(this.player.yDest)) {
+      this.player.body.velocity.y = -80;
+    }
   }
 }
