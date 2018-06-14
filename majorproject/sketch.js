@@ -3,6 +3,7 @@ let map;
 let layer;
 let playerSprite;
 let goblinSprite;
+let enemy;
 
 
 function preload() {
@@ -10,7 +11,6 @@ function preload() {
   game.load.spritesheet('sprite', 'sprite/walkleft/0.png', 34, 34);
   game.load.image('tileset', 'map/maptile.png');
   game.load.tilemap('map', 'map/collisions.json', null, Phaser.Tilemap.TILED_JSON);
-
 }
 
 function create() {
@@ -23,14 +23,13 @@ function create() {
   //map.setCollision([108, 109, 110, 111, 131, 132, 133, 134, 85, 86, 87, 88, 200, 226, 270, 201]);
 
   //sprite goblin
-  // goblinSprite = new Enemy();
-  // this.goblin = game.add.group();
-  // this.goblin.add(Enemy(200, 300));
-  // this.goblin.add(Enemy(400, 100));
-  // this.goblin.forEach(function(enemy, index){
-  //   game.physics.enable(enemy, Phaser.Physics.ARCADE);
-  //   enemy.body.immovable = true;
-  // });
+  this.mob = game.add.group();
+  this.mob.add(Enemy(200, 300));
+  this.mob.add(Enemy(400, 100));
+  this.mob.forEach(function(enemy, index){
+    game.physics.enable(enemy, Phaser.Physics.ARCADE);
+    enemy.body.immovable = true;
+  });
 
 
   //player class
@@ -47,6 +46,14 @@ function update(){
     playerSprite.setDest(game.input.x - game.world.worldPosition.x, game.input.y - game.world.worldPosition.y);
   }
   playerSprite.update();
+  game.physics.arcade.collide(playerSprite, enemy, function(){
+    playerSprite.stop();
+  });
+
+  this.mob.forEach(function(enemy,index){
+    enemy.animations.play('move');
+    enemy.update();
+  });
 }
 
 class Player{
@@ -100,26 +107,24 @@ class Player{
   }
 }
 
-class Enemy{
-  constructor(x, y){
-    let enemy = game.add.sprite(x, y, 'enemy');
-    enemy.state = 'patrol';
-    enemy.xDest = x;
-    enemy.yDest = y;
-    enemy.direction = 1;
-    enemy.anchor.set(0.5, 0.5);
-    enemy.scale.setTo(0.8, 0.8);
-    enemy.animations.add('idle', [3], 2, true);
-    enemy.animations.add('move', [0, 1, 2, 3, 4, 5], 2, true);
-    game.add.existing(enemy);
-    game.physics.enable(enemy, Phaser.Physics.ARCADE);
-  }
-  move(x, y){
+function Enemy(x, y){
+  enemy = game.add.sprite(x, y, 'enemy');
+  enemy.state = 'patrol';
+  enemy.xDest = x;
+  enemy.yDest = y;
+  enemy.direction = 1;
+  enemy.anchor.set(0.5, 0.5);
+  enemy.scale.setTo(0.8, 0.8);
+  enemy.animations.add('idle', [3], 2, true);
+  enemy.animations.add('move', [0,1,2,3,4], 2, false);
+  game.add.existing(enemy);
+
+  enemy.move = function(x, y){
     enemy.xDest = x;
     enemy.yDest = y;
   }
-  states(){
-    switch(this.state){
+  enemy.update = function(){
+    switch(enemy.state){
       case 'patrol':
         enemy.speed = 60;
         enemy.patrol();
@@ -129,21 +134,19 @@ class Enemy{
         enemy.stop();
         break;
     }
-    this.move();
+    enemy.move();
   }
-  update(){
+  enemy.move = function(){
     if (Math.floor(enemy.x / 10) == Math.floor(enemy.xDest / 10)) {
       enemy.body.velocity.x = 0;
     }
     else if (Math.floor(enemy.x) < Math.floor(enemy.xDest)) {
       enemy.body.velocity.x = 80;
-      enemy.animations.play('left');
-      enemy.scale.setTo(-2, 2);
+      enemy.scale.setTo(-0.8, 0.8);
     }
     else if (Math.floor(enemy.x) > Math.floor(enemy.xDest)) {
       enemy.body.velocity.x = -80;
-      enemy.animations.play('left');
-      enemy.scale.setTo(2, 2);
+      enemy.scale.setTo(0.8, 0.8);
     }
     if (Math.floor(enemy.y / 10) === Math.floor(enemy.yDest / 10)) {
       enemy.body.velocity.y = 0;
@@ -155,14 +158,16 @@ class Enemy{
       enemy.body.velocity.y = -80;
     }
   }
-  stop(x, y){
+  enemy.stop = function(x, y){
     enemy.xDest = x;
     enemy.yDest = y;
   }
-  patrol(){
+  enemy.patrol = function(){
     if(Math.floor(enemy.x / 10) == Math.floor(enemy.xDest / 10)){
+      enemy.animations.play('move');
       enemy.direction = enemy.direction * -1;
       this.move(enemy.x + enemy.direction * 100);
     }
   }
+  return enemy;
 }
